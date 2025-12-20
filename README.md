@@ -19,9 +19,9 @@ Declared in `include/heap.h`:
 void *heap_alloc(size_t size);
 void  heap_free(void *ptr);
 
-┌───────────────────────────┬──────────────────────────┐
-│ block_header_t (metadata) │ user payload              │
-└───────────────────────────┴──────────────────────────┘
+------------------------------------------------------
+│ block_header_t (metadata) │ user payload           │
+------------------------------------------------------
 ^                           ^
 mmap base                   pointer returned to user
 
