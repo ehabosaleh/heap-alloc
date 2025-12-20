@@ -25,10 +25,11 @@ void* heap_alloc(size_t size){
 	size_t page_size=sysconf(_SC_PAGESIZE);
 	size_t mmap_size=(total+page_size-1)& ~(page_size-1);
 	
-	void*mem=mmap(NULL,mmap_size,PORT_READ|PORT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+	void*mem=mmap(NULL,mmap_size,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
 	
 	if(mem==MAP_FAILED)
 		return NULL;
+
 	block_header_t *hdr=(block_header_t*)mem;
 	hdr->size=size;
 	hdr->total_size=mmap_size;
@@ -41,6 +42,7 @@ void heap_free(void  *ptr){
 	
 	if(!ptr)
 		return;
+	block_header_t *hdr=(block_header_t *)ptr-1;
 	munmap((void*)hdr, hdr->total_size);
 	
 }
